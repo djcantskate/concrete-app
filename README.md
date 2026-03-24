@@ -76,7 +76,7 @@ All session routes are scoped by `userId` extracted from the JWT so users can on
 
 **1. Clone the repo**
 ```bash
-git clone https://github.com/djcantskate/concrete.git
+git clone https://github.com/djcantskate/concrete-app.git
 cd concrete
 ```
 
