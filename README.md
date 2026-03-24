@@ -122,4 +122,4 @@ The app will be running at `http://localhost:5173`.
 
 ## Author
 
-Darrington Curtis - github.com/djcantskate
+Darrington Curtis - github.com/djcantskate - curtisdarrington50@gmail.com
