@@ -2,18 +2,18 @@
 
 A full stack skate session tracking app built with the MERN stack. Concrete lets skaters log sessions, track trick attempts with landed/total counts, and visualize their progress over time.
 
-Live demo: [coming soon]
+Live demo: coming soon
 
 ---
 
 ## Features
 
-- **Session logging** — create sessions with a label, date, location, notes, and tricks
-- **Trick tracking** — log landed and total attempts per trick with a real-time success rate badge and progress bar
-- **Counter** — tally trick attempts live at the skatepark, then import them directly into a new or existing session
-- **Location autocomplete** — powered by Google Places API with GPS current location support
-- **JWT authentication** — secure register and login with bcrypt password hashing and token-scoped data access
-- **Dark mode** — follows the user's system preference automatically
+- **Session logging** - create sessions with a label, date, location, notes, and tricks
+- **Trick tracking** - log landed and total attempts per trick with a real-time success rate badge and progress bar
+- **Counter** - tally trick attempts live at the skatepark, then import them directly into a new or existing session
+- **Location autocomplete** - powered by Google Places API with GPS current location support
+- **JWT authentication** - secure register and login with bcrypt password hashing and token-scoped data access
+- **Dark mode** - follows the user's system preference automatically
 
 ---
 
@@ -31,9 +31,9 @@ Live demo: [coming soon]
 - express-rate-limit
 
 **APIs**
-- Google Places API — location autocomplete
-- Google Maps Static API — map pin previews on session cards
-- Google Geocoding API — GPS coordinates to address
+- Google Places API - location autocomplete
+- Google Maps Static API - map pin previews on session cards
+- Google Geocoding API - GPS coordinates to address
 
 ---
 
@@ -43,19 +43,19 @@ The backend is structured into separate models, middleware, and route files:
 
 ```
 backend/
-├── models/
-│   ├── User.js        — Mongoose schema for users
-│   └── Session.js     — Mongoose schema for sessions with embedded tricks
-├── middleware/
-│   └── auth.js        — JWT verification middleware
-├── routes/
-│   ├── auth.js        — register, login, /me
-│   ├── sessions.js    — session CRUD (all protected)
-│   └── places.js      — Google Places proxy (protects API key)
-└── server.js          — app setup, middleware, route mounting
+  models/
+    User.js       - Mongoose schema for users
+    Session.js    - Mongoose schema for sessions with embedded tricks
+  middleware/
+    auth.js       - JWT verification middleware
+  routes/
+    auth.js       - register, login, /me
+    sessions.js   - session CRUD (all protected)
+    places.js     - Google Places proxy (protects API key)
+  server.js       - app setup, middleware, route mounting
 ```
 
-All session routes are scoped by `userId` extracted from the JWT — users can only read and modify their own data. Google API calls are proxied through the backend so the API key is never exposed to the client.
+All session routes are scoped by `userId` extracted from the JWT so users can only read and modify their own data. Google API calls are proxied through the backend so the API key is never exposed to the client.
 
 ---
 
@@ -76,7 +76,7 @@ All session routes are scoped by `userId` extracted from the JWT — users can o
 
 **1. Clone the repo**
 ```bash
-git clone https://github.com/djcantskate/concrete-app.git
+git clone https://github.com/djcantskate/concrete.git
 cd concrete
 ```
 
@@ -122,4 +122,4 @@ The app will be running at `http://localhost:5173`.
 
 ## Author
 
-Darrington Curtis — [github.com/djcantskate](https://github.com/djcantskate)
+Darrington Curtis - github.com/djcantskate
