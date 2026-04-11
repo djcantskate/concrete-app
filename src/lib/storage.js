@@ -100,3 +100,25 @@ export async function deleteSession(sessionId) {
         headers: getAuthHeaders(),
     });
 }
+
+// Places functions
+// These call the backend proxy routes which in turn call Google's APIs.
+// The API key never touches the frontend.
+
+export async function getPlacesAutocomplete(input) {
+    return apiFetch(`${API_URL}/places/autocomplete?input=${encodeURIComponent(input)}`, {
+        headers: getAuthHeaders(),
+    });
+}
+
+export async function getPlaceDetails(placeId) {
+    return apiFetch(`${API_URL}/places/details?place_id=${encodeURIComponent(placeId)}`, {
+        headers: getAuthHeaders(),
+    });
+}
+
+export async function geocodeCoordinates(lat, lng) {
+    return apiFetch(`${API_URL}/places/geocode?lat=${lat}&lng=${lng}`, {
+        headers: getAuthHeaders(),
+    });
+}

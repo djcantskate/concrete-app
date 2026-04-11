@@ -11,6 +11,7 @@ import React, { useState } from 'react';
 import SessionCard from '../components/SessionCard.jsx';
 import HamburgerMenu from '../components/HamburgerMenu.jsx';
 import { getCountBadgeClass, getCountRate } from '../lib/countUtils.js';
+import LocationInput from '../components/LocationInput.jsx';
 
 const SessionsPage = ({ onSessionSelect, onLogout, onNavigateToCounter, username, sessions, onCreateSession, counts = [] }) => {
     const [showNewSessionForm, setShowNewSessionForm] = useState(false);
@@ -19,6 +20,8 @@ const SessionsPage = ({ onSessionSelect, onLogout, onNavigateToCounter, username
         label: '',
         date: new Date().toISOString().slice(0, 10),
         location: '',
+        lat: null,
+        lng: null,
         notes: '',
         tricks: [{ name: '', landedAttempts: 0, totalAttempts: 0 }],
     });
@@ -117,6 +120,8 @@ const SessionsPage = ({ onSessionSelect, onLogout, onNavigateToCounter, username
             await onCreateSession({
                 date: newSession.date,
                 location: newSession.location,
+                lat: newSession.lat,
+                lng: newSession.lng,
                 label: newSession.label,
                 tricks: normalizedTricks,
                 notes: newSession.notes,
@@ -127,6 +132,10 @@ const SessionsPage = ({ onSessionSelect, onLogout, onNavigateToCounter, username
         } finally {
             setLoading(false);
         }
+    };
+
+    const handleLocationChange = (locationName, lat, lng) => {
+        setNewSession((prev) => ({ ...prev, location: locationName, lat, lng }));
     };
 
     return (
@@ -200,15 +209,13 @@ const SessionsPage = ({ onSessionSelect, onLogout, onNavigateToCounter, username
                                     </div>
                                     <div>
                                         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Location</label>
-                                        <input
-                                            type="text"
-                                            name="location"
-                                            value={newSession.location}
-                                            onChange={handleNewSessionChange}
-                                            placeholder="Venice Beach Skatepark"
-                                            disabled={loading}
-                                            className="mt-1 w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white px-3 py-2 focus:border-gray-900 dark:focus:border-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-900/20 dark:focus:ring-gray-400/20"
-                                        />
+                                        <div className="mt-1">
+                                            <LocationInput
+                                                value={newSession.location}
+                                                onChange={handleLocationChange}
+                                                disabled={loading}
+                                            />
+                                        </div>
                                     </div>
 
                                     <div className="sm:col-span-2">
