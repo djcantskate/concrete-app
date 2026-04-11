@@ -15,6 +15,7 @@ import React, { useState } from 'react';
 import TrickItem from '../components/TrickItem.jsx';
 import HamburgerMenu from '../components/HamburgerMenu.jsx';
 import { getCountBadgeClass, getCountRate } from '../lib/countUtils.js';
+import {APP_VERSION} from "../lib/appVersion.js";
 
 const SessionDetailPage = ({ session, onBack, onUpdateSession, onNavigateToCounter, onDeleteSession, onLogout, counts = [] }) => {
 
@@ -134,6 +135,8 @@ const SessionDetailPage = ({ session, onBack, onUpdateSession, onNavigateToCount
                         />
                     </div>
                 </header>
+
+                <p className="text-xs text-gray-600 dark:text-gray-400 text-right">{APP_VERSION}</p>
 
                 {/* Stats summary */}
                 <div className="p-4 grid grid-cols-1 sm:grid-cols-3 gap-4">

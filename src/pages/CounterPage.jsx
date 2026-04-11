@@ -10,6 +10,7 @@
 import React, { useState } from 'react';
 import HamburgerMenu from '../components/HamburgerMenu.jsx';
 import CountCard from '../components/CountCard.jsx';
+import {APP_VERSION} from "../lib/appVersion.js";
 
 const CounterPage = ({ onBack, counts, onAddCount, onUpdateCount, onDeleteCount, onClearCounts, onLogout }) => {
     const [showForm, setShowForm] = useState(false);
@@ -84,6 +85,8 @@ const CounterPage = ({ onBack, counts, onAddCount, onUpdateCount, onDeleteCount,
                         </div>
                     </div>
                 </header>
+
+                <p className="text-xs text-gray-600 dark:text-gray-400 text-right">{APP_VERSION}</p>
 
                 <div className="p-4">
                     {counts.length === 0 ? (

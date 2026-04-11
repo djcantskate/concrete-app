@@ -6,6 +6,7 @@
 
 import React, { useState } from 'react';
 import { login, register } from '../lib/storage.js';
+import { APP_VERSION } from '../lib/appVersion.js';
 
 const LoginPage = ({ onLogin }) => {
     const [isRegistering, setIsRegistering] = useState(false);
@@ -195,8 +196,12 @@ const LoginPage = ({ onLogin }) => {
 
                     </form>
                 </div>
+
+                <p className="text-xs text-gray-600 dark:text-gray-400 text-center mt-1">{APP_VERSION}</p>
+
             </div>
         </div>
+
     );
 };
 
