@@ -183,7 +183,7 @@ const SessionsPage = ({ onSessionSelect, onLogout, onNavigateToCounter, username
                                     </button>
                                 </div>
 
-                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div className="grid grid-cols-1 gap-4">
                                     <div className="sm:col-span-2">
                                         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Session Label</label>
                                         <input
@@ -196,6 +196,7 @@ const SessionsPage = ({ onSessionSelect, onLogout, onNavigateToCounter, username
                                             className="mt-1 w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white px-3 py-2 focus:border-gray-900 dark:focus:border-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-900/20 dark:focus:ring-gray-400/20"
                                         />
                                     </div>
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div>
                                         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Date</label>
                                         <input
@@ -204,7 +205,7 @@ const SessionsPage = ({ onSessionSelect, onLogout, onNavigateToCounter, username
                                             value={newSession.date}
                                             onChange={handleNewSessionChange}
                                             disabled={loading}
-                                            className="mt-1 w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white px-3 py-2 focus:border-gray-900 dark:focus:border-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-900/20 dark:focus:ring-gray-400/20"
+                                            className="mt-1 min-w-0 w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white px-3 py-2 focus:border-gray-900 dark:focus:border-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-900/20 dark:focus:ring-gray-400/20"
                                         />
                                     </div>
                                     <div>
@@ -217,7 +218,7 @@ const SessionsPage = ({ onSessionSelect, onLogout, onNavigateToCounter, username
                                             />
                                         </div>
                                     </div>
-
+                                    </div>
                                     <div className="sm:col-span-2">
                                         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Tricks</label>
 
