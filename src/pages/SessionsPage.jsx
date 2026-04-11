@@ -162,8 +162,9 @@ const SessionsPage = ({ onSessionSelect, onLogout, onNavigateToCounter, username
                             />
                         </div>
                     </div>
+                    <p className="text-xs text-gray-600 dark:text-gray-400 text-left">{APP_VERSION}</p>
                 </header>
-                <p className="text-xs text-gray-600 dark:text-gray-400 text-right">{APP_VERSION}</p>
+
 
                 {/* New session modal */}
                 {showNewSessionForm && (

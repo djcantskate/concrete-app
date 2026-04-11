@@ -84,9 +84,8 @@ const CounterPage = ({ onBack, counts, onAddCount, onUpdateCount, onDeleteCount,
                             />
                         </div>
                     </div>
+                    <p className="text-xs text-gray-600 dark:text-gray-400 text-left">{APP_VERSION}</p>
                 </header>
-
-                <p className="text-xs text-gray-600 dark:text-gray-400 text-right">{APP_VERSION}</p>
 
                 <div className="p-4">
                     {counts.length === 0 ? (

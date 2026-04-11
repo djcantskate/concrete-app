@@ -70,7 +70,7 @@ const LoginPage = ({ onLogin }) => {
     return (
         <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center px-4">
             <div className="w-full max-w-md">
-                <div className="rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6 shadow-md">
+                <div className="rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 px-6 pt-6 pb-3 shadow-md flex flex-col">
                     <h1 className="text-2xl font-bold text-gray-900 dark:text-white text-center">Concrete</h1>
                     <p className="mt-1 text-sm text-gray-600 dark:text-gray-400 text-center">
                         {isRegistering ? '📝 Create your account' : '🔓 Sign in to continue'}
@@ -195,10 +195,8 @@ const LoginPage = ({ onLogin }) => {
                         </button>
 
                     </form>
+                    <p className="text-xs text-gray-600 dark:text-gray-400 text-center pt-5 leading-none">{APP_VERSION}</p>
                 </div>
-
-                <p className="text-xs text-gray-600 dark:text-gray-400 text-center mt-1">{APP_VERSION}</p>
-
             </div>
         </div>
 
