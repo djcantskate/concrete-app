@@ -2,7 +2,7 @@
 
 A full stack skate session tracking app built with the MERN stack. Concrete lets skaters log sessions, track trick attempts with landed/total counts, and visualize their progress over time.
 
-Live demo: coming soon
+Live demo: https://concrete-maogs.vercel.app
 
 ---
 
@@ -32,7 +32,6 @@ Live demo: coming soon
 
 **APIs**
 - Google Places API - location autocomplete
-- Google Maps Static API - map pin previews on session cards
 - Google Geocoding API - GPS coordinates to address
 
 ---
