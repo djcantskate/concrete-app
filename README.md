@@ -76,7 +76,7 @@ All session routes are scoped by `userId` extracted from the JWT so users can on
 **1. Clone the repo**
 ```bash
 git clone https://github.com/djcantskate/concrete-app.git
-cd concrete
+cd concrete-app
 ```
 
 **2. Set up the backend**
@@ -100,6 +100,7 @@ npm run dev
 ```
 
 **3. Set up the frontend**
+Open a new terminal and run:
 ```bash
 cd ..
 npm install
