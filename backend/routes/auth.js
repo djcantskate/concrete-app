@@ -55,7 +55,7 @@ router.post('/register', authLimiter, async (req, res, next) => {
             email: email.trim(),
         }).save();
 
-        const token = jwt.sign({ userId: savedUser._id }, process.env.JWT_SECRET, { expiresIn: '24h' });
+        const token = jwt.sign({ userId: savedUser._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
         res.status(201).json({
             message: 'User created successfully',
             token,
@@ -86,7 +86,7 @@ router.post('/login', authLimiter, async (req, res, next) => {
             return res.status(401).json({ error: 'Invalid credentials' });
         }
 
-        const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '24h' });
+        const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
         res.json({
             message: 'Login successful',
             token,
