@@ -10,14 +10,19 @@ const verifyToken = require('../middleware/auth.js');
 // Filters blank tricks, parses integers, and clamps landedAttempts to totalAttempts
 function normalizeTricks(tricks = []) {
     return tricks
-        .filter((t) => t.name && t.name.trim())
+        .filter((t) => t && typeof t.name === 'string' && t.name.trim())
         .map((t) => {
             const totalAttempts = Math.max(0, parseInt(t.totalAttempts) || 0);
             const landedAttempts = Math.min(
                 Math.max(0, parseInt(t.landedAttempts) || 0),
                 totalAttempts
             );
-            return { name: t.name.trim(), landedAttempts, totalAttempts };
+
+            return {
+                name: t.name.trim(),
+                landedAttempts,
+                totalAttempts,
+            };
         });
 }
 
@@ -36,8 +41,23 @@ router.post('/', verifyToken, async (req, res, next) => {
     try {
         const { label, date, location, notes, tricks } = req.body;
 
-        if (!label || !location) {
-            return res.status(400).json({ error: 'Label and location are required' });
+        if (
+            typeof label !== 'string' ||
+            !label.trim() ||
+            typeof location !== 'string' ||
+            !location.trim()
+        ) {
+            return res.status(400).json({
+                error: 'Label and location are required',
+            });
+        }
+
+        if (
+            (date !== undefined && typeof date !== 'string') ||
+            (notes !== undefined && typeof notes !== 'string') ||
+            (tricks !== undefined && !Array.isArray(tricks))
+        ) {
+            return res.status(400).json({ error: 'Invalid session data' });
         }
 
         const savedSession = await new Session({
@@ -59,11 +79,32 @@ router.post('/', verifyToken, async (req, res, next) => {
 // findOneAndUpdate scopes by both _id and userId so users cannot edit others' sessions
 router.put('/:id', verifyToken, async (req, res, next) => {
     try {
-        const updates = req.body;
-
-        if (updates.tricks) {
-            updates.tricks = normalizeTricks(updates.tricks);
+        const { label, date, location, notes, tricks } = req.body;
+        if (
+            (label !== undefined && typeof label !== 'string') ||
+            (date !== undefined && typeof date !== 'string') ||
+            (location !== undefined && typeof location !== 'string') ||
+            (notes !== undefined && typeof notes !== 'string') ||
+            (tricks !== undefined && !Array.isArray(tricks))
+        ) {
+            return res.status(400).json({ error: 'Invalid session data' });
         }
+        if (
+            (label !== undefined && !label.trim()) ||
+            (location !== undefined && !location.trim())
+        ) {
+            return res.status(400).json({
+                error: 'Label and location cannot be empty',
+            });
+        }
+        const updates = {};
+
+        // Only allow approved fields to be updated
+        if (label !== undefined) updates.label = label.trim();
+        if (date !== undefined) updates.date = date;
+        if (location !== undefined) updates.location = location.trim();
+        if (notes !== undefined) updates.notes = notes;
+        if (tricks !== undefined) updates.tricks = normalizeTricks(tricks);
 
         const session = await Session.findOneAndUpdate(
             { _id: req.params.id, userId: req.userId },

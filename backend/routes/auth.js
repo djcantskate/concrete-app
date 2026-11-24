@@ -2,7 +2,7 @@
 // Authentication routes — register, login, and get current user.
 // Validation rules here must stay in sync with LoginPage.jsx on the frontend.
 // Passwords are hashed with bcrypt before storage, never stored in plaintext.
-// JWTs are signed with JWT_SECRET and expire after 24 hours.
+// JWTs are signed with JWT_SECRET and expire after 7 days.
 
 const router = require('express').Router();
 const bcrypt = require('bcryptjs');
@@ -16,7 +16,7 @@ const rateLimit = require('express-rate-limit');
 // Protects against brute force attacks on login and register.
 const authLimiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 10,
+    max: process.env.NODE_ENV === 'test' ? 100 : 10,
     message: { error: 'Too many attempts, please try again later' },
     standardHeaders: true,
     legacyHeaders: false,
@@ -29,30 +29,39 @@ const validateUsername = (username) => /^[a-zA-Z0-9_]{3,30}$/.test(username);
 router.post('/register', authLimiter, async (req, res, next) => {
     try {
         const { username, password, email } = req.body;
+        const normalizedUsername = typeof username === 'string' ? username.trim() : '';
+        const normalizedEmail = typeof email === 'string' ? email.trim().toLowerCase() : '';
 
-        if (!username || !password || !email) {
+        if (
+            typeof username !== 'string' ||
+            typeof password !== 'string' ||
+            typeof email !== 'string' ||
+            !username.trim() ||
+            !password ||
+            !email.trim()
+        ) {
             return res.status(400).json({ error: 'Username, password, and email are required' });
         }
-        if (!validateEmail(email)) {
+        if (!validateEmail(normalizedEmail)) {
             return res.status(400).json({ error: 'Invalid email address' });
         }
-        if (!validateUsername(username)) {
+        if (!validateUsername(normalizedUsername)) {
             return res.status(400).json({ error: 'Username must be 3-30 characters (letters, numbers, underscores only)' });
         }
         if (password.length < 8) {
             return res.status(400).json({ error: 'Password must be at least 8 characters' });
         }
 
-        const existingUser = await User.findOne({ $or: [{ username }, { email }] });
+        const existingUser = await User.findOne({ $or: [{ username: normalizedUsername }, { email: normalizedEmail }] });
         if (existingUser) {
-            return res.status(400).json({ error: 'Username or email already taken' });
+            return res.status(409).json({ error: 'Username or email already taken' });
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
         const savedUser = await new User({
-            username: username.trim(),
+            username: normalizedUsername,
             password: hashedPassword,
-            email: email.trim(),
+            email: normalizedEmail,
         }).save();
 
         const token = jwt.sign({ userId: savedUser._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
@@ -62,6 +71,12 @@ router.post('/register', authLimiter, async (req, res, next) => {
             user: { id: savedUser._id, username: savedUser.username, email: savedUser.email },
         });
     } catch (error) {
+        if (error.code === 11000) {
+            return res.status(409).json({
+                error: 'Username or email already taken',
+            });
+        }
+
         next(error);
     }
 });
@@ -70,12 +85,18 @@ router.post('/register', authLimiter, async (req, res, next) => {
 router.post('/login', authLimiter, async (req, res, next) => {
     try {
         const { username, password } = req.body;
+        const normalizedUsername = typeof username === 'string' ? username.trim() : '';
 
-        if (!username || !password) {
+        if (
+            typeof username !== 'string' ||
+            typeof password !== 'string' ||
+            !normalizedUsername ||
+            !password
+        ) {
             return res.status(400).json({ error: 'Username/email and password are required' });
         }
 
-        const query = validateEmail(username) ? { email: username } : { username };
+        const query = validateEmail(normalizedUsername) ? { email: normalizedUsername.toLowerCase() } : { username: normalizedUsername };
         const user = await User.findOne(query);
         if (!user) {
             return res.status(401).json({ error: 'Invalid credentials' });
